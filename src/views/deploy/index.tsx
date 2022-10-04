@@ -78,7 +78,7 @@ const Deploy = () => {
   return (
     <FormProvider {...form}>
       <DeploymentStepTracker step={currentView} />
-      <Box sx={{ width: 1024, margin: 'auto' }} mb={3}>
+      <Box sx={{ width: 1180, margin: 'auto' }} mb={3}>
         {View && <View />}
       </Box>
     </FormProvider>
