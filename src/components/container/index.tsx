@@ -8,7 +8,7 @@ import { Box, BoxProps } from 'theme-ui'
  */
 const Container = ({ sx = {}, ...props }: BoxProps) => (
   <Box
-    sx={{ boxSizing: 'border-box', padding: [4, '40px 48px'], ...sx }}
+    sx={{ boxSizing: 'border-box', padding: [4, '32px 32px'], ...sx }}
     {...props}
   />
 )
