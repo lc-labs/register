@@ -30,10 +30,14 @@ const timeUnits = {
 export const relativeTime = (from: number, to: number) => {
   let delta = to - from
 
+  if (delta < 0) {
+    delta = timeUnits.hour
+  }
+
   if (delta >= timeUnits.year) {
     return t`A year ago`
   } else if (delta >= timeUnits.month) {
-    return `>${Math.floor(delta / timeUnits.month)}` + t`m`
+    return `>${Math.floor(delta / timeUnits.month)}` + t`mth`
   } else if (delta >= timeUnits.day) {
     return `>${Math.floor(delta / timeUnits.day)}d`
   } else if (delta >= timeUnits.hour) {
@@ -43,6 +47,13 @@ export const relativeTime = (from: number, to: number) => {
   } else {
     return `>${delta}s`
   }
+}
+
+export const dateToUnix = (str: string): number => {
+  const date = new Date(str)
+  const time = date.getTime() - 50000 - date.getTimezoneOffset() * 60000
+
+  return Math.floor(time / 1000)
 }
 
 export const getTime = (seconds: number) => {

@@ -102,9 +102,9 @@ const CollateralModal = ({
       <Divider mx={-4} mt={3} />
       <Box
         sx={{
-          // height: 'calc(100vh - 500px)',
           maxHeight: 370,
           overflow: 'auto',
+          position: 'relative',
         }}
         mt={-2}
         mb={-2}
@@ -123,6 +123,13 @@ const CollateralModal = ({
               <Divider my={3} />
             </Box>
           )
+        )}
+        {!Object.keys(collaterals).length && (
+          <Box sx={{ textAlign: 'center' }} mb={5} mt={3}>
+            <Text variant="legend">
+              <Trans>No plugins available</Trans>
+            </Text>
+          </Box>
         )}
       </Box>
       <Divider mx={-4} mb={3} />

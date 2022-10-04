@@ -7,7 +7,7 @@ import { useUpdateAtom } from 'jotai/utils'
 import { useMemo } from 'react'
 import { X } from 'react-feather'
 import { Box, CardProps, Divider, Flex, IconButton, Text } from 'theme-ui'
-import { formatCurrency } from 'utils'
+import { formatCurrency, truncateDecimals } from 'utils'
 import { PrimaryUnitBasket, updateBasketUnitAtom } from '../atoms'
 
 interface UnitBasketProps extends CardProps {
@@ -28,8 +28,9 @@ const UnitBasket = ({ data, readOnly, unit, ...props }: UnitBasketProps) => {
     [data.distribution]
   )
   const getCollateralDist = (index: number) => {
-    return formatCurrency((+data.scale * +data.distribution[index]) / 100)
+    return truncateDecimals((+data.scale * +data.distribution[index]) / 100, 5)
   }
+
   const handleRemove = (index: number) => {
     const n = data.collaterals.length - 1
     const distribution = new Array(n).fill(100 / n)
@@ -48,8 +49,6 @@ const UnitBasket = ({ data, readOnly, unit, ...props }: UnitBasketProps) => {
   }
 
   const handleDistribution = (index: number, value: string) => {
-    console.log('value', value)
-
     updateBasket([
       unit,
       {
@@ -72,10 +71,10 @@ const UnitBasket = ({ data, readOnly, unit, ...props }: UnitBasketProps) => {
       {!readOnly && (
         <>
           <Flex variant="layout.verticalAlign">
-            <Text>
+            <Text sx={{ fontWeight: 500 }}>
               {unit} <Trans>- Basket scale</Trans>
             </Text>
-            <Box ml="auto" sx={{ width: 42 }} mr={2}>
+            <Box ml="auto" sx={{ width: 97 }} mr={2}>
               <NumericalInput
                 variant={+data.scale > 0 ? 'input' : 'inputError'}
                 value={data.scale}
@@ -103,12 +102,12 @@ const UnitBasket = ({ data, readOnly, unit, ...props }: UnitBasketProps) => {
       {data.collaterals.map((collateral, index) => (
         <Flex key={collateral.address} variant="layout.verticalAlign" mt={3}>
           <IconInfo
-            icon={<TokenLogo symbol={collateral.symbol} />}
+            icon={<TokenLogo size={18} symbol={collateral.symbol} />}
             title={unit}
             text={`${getCollateralDist(index)} in ${collateral.symbol}`}
           />
           {!readOnly ? (
-            <Box ml="auto" sx={{ width: 60 }}>
+            <Box ml="auto" sx={{ width: 100 }} mr={2}>
               <NumericalInput
                 sx={{ textAlign: 'center' }}
                 variant={
@@ -130,10 +129,11 @@ const UnitBasket = ({ data, readOnly, unit, ...props }: UnitBasketProps) => {
           <Text>%</Text>
           {!readOnly && (
             <IconButton
+              ml={2}
               sx={{ cursor: 'pointer' }}
               onClick={() => handleRemove(index)}
             >
-              <X size={20} color="var(--theme-ui-colors-secondaryText)" />
+              <X size={20} color="var(--theme-ui-colors-lightText)" />
             </IconButton>
           )}
         </Flex>

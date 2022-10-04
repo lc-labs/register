@@ -3,14 +3,15 @@ import { Container } from 'components'
 import Alert from 'components/alert'
 import { BigNumber } from 'ethers'
 import useTransactionCost from 'hooks/useTransactionCost'
-import { useAtomValue, useSetAtom } from 'jotai'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { useUpdateAtom } from 'jotai/utils'
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { addTransactionAtom, selectedRTokenAtom } from 'state/atoms'
 import { FACADE_WRITE_ADDRESS, ZERO_ADDRESS } from 'utils/addresses'
 import { CHAIN_ID } from 'utils/chains'
 import { TRANSACTION_STATUS } from 'utils/constants'
+import { v4 as uuid } from 'uuid'
 import DeployHeader, {
   deployStepAtom,
 } from 'views/deploy/components/DeployHeader'
@@ -24,9 +25,13 @@ const ConfirmGovernanceSetup = () => {
   const rToken = useAtomValue(selectedRTokenAtom)
   const { getValues } = useFormContext()
   const addTransaction = useSetAtom(addTransactionAtom)
-  const txId = useAtomValue(govTxIdAtom)
+  const [txId, setId] = useAtom(govTxIdAtom)
   const setStep = useUpdateAtom(deployStepAtom)
   const transaction = useMemo(() => {
+    if (!txId) {
+      return null
+    }
+
     try {
       const {
         defaultGovernance,
@@ -77,14 +82,23 @@ const ConfirmGovernanceSetup = () => {
       console.error('Error setting up tx', e)
       return null
     }
-  }, [])
+  }, [txId])
   const [fee, gasError] = useTransactionCost(transaction ? [transaction] : [])
+
+  useEffect(() => {
+    setId(uuid())
+  }, [])
 
   const handleDeploy = () => {
     if (transaction) {
       addTransaction([transaction])
       setStep(Steps.GovernanceTx)
     }
+  }
+
+  const handleBack = () => {
+    setStep(Steps.GovernanceSetup)
+    setId('')
   }
 
   return (
@@ -97,6 +111,7 @@ const ConfirmGovernanceSetup = () => {
           subtitle={t`Lorem ipsum dolor sit amet, consectetur adipiscing elit.`}
           confirmText={fee ? t`Confirm Setup` : t`Validating...`}
           gasCost={fee}
+          onBack={handleBack}
           onConfirm={handleDeploy}
         />
         {!!gasError && <Alert text={gasError} mb={5} />}

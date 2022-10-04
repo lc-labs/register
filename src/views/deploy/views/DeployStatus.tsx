@@ -1,6 +1,8 @@
 import { Trans } from '@lingui/macro'
+import CopyValue from 'components/button/CopyValue'
+import GoTo from 'components/button/GoTo'
 import useRToken from 'hooks/useRToken'
-import { useAtomValue } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
 import { useUpdateAtom } from 'jotai/utils'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -8,19 +10,21 @@ import { accountRoleAtom, selectedRTokenAtom } from 'state/atoms'
 import { useTransaction } from 'state/web3/hooks/useTransactions'
 import { Box, Card, Spinner, Text } from 'theme-ui'
 import { shortenString } from 'utils'
-import { ROUTES } from 'utils/constants'
+import { ROUTES, TRANSACTION_STATUS } from 'utils/constants'
+import { ExplorerDataType, getExplorerLink } from 'utils/getExplorerLink'
 import { deployIdAtom } from '../atoms'
+import { deployStepAtom } from '../components/DeployHeader'
 
 const Pending = () => (
-  <Box sx={{ textAlign: 'center', width: 400 }}>
+  <Box sx={{ textAlign: 'center', width: 420 }}>
     <Spinner size={24} />
     <Text sx={{ fontWeight: 500, display: 'block' }}>
       <Trans>Pending, sign in wallet</Trans>
     </Text>
     <Text as="p" variant="legend">
       <Trans>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit adipiscing elit
-        consectetur.
+        Please sign the transaction in your wallet to continue with the
+        deployment process.
       </Trans>
     </Text>
   </Box>
@@ -30,21 +34,26 @@ const Mining = ({ hash }: { hash: string }) => (
   <Box sx={{ textAlign: 'center', width: 400 }}>
     <Spinner size={24} />
     <Text sx={{ fontWeight: 500, display: 'block' }}>
-      <Trans>RToken is being deployed</Trans>
+      <Trans>Deploy transaction submitted</Trans>
     </Text>
     <Text as="p" variant="legend">
       <Trans>
-        Stay patient & don’t close this window to avoid issues getting back to
-        your next steps.
+        Stay patient while the RToken is deploying & don’t close this window to
+        avoid issues finding your way back here.
       </Trans>
     </Text>
-    <Text mt={4} sx={{ display: 'block' }} variant="legend">
-      Tx hash: {shortenString(hash)}
-    </Text>
+    <Box
+      variant="layout.verticalAlign"
+      sx={{ justifyContent: 'center' }}
+      mt={4}
+    >
+      <Text variant="legend">{shortenString(hash)}</Text>
+      <CopyValue ml={3} mr={2} value={hash} />
+      <GoTo href={getExplorerLink(hash, ExplorerDataType.TRANSACTION)} />
+    </Box>
   </Box>
 )
 
-// TODO: Handle no id case -> redirect to step 0? that should be a bug
 const DeployStatus = () => {
   const txId = useAtomValue(deployIdAtom)
   const tx = useTransaction(txId)
@@ -52,17 +61,24 @@ const DeployStatus = () => {
   const setRToken = useUpdateAtom(selectedRTokenAtom)
   const setOwner = useUpdateAtom(accountRoleAtom)
   const navigate = useNavigate()
+  const [current, setStep] = useAtom(deployStepAtom)
 
-  // TODO: Error case? user can get stuck here
   useEffect(() => {
     if (tx?.extra?.rTokenAddress) {
       setRToken(tx?.extra?.rTokenAddress)
+    }
+
+    if (tx?.status === TRANSACTION_STATUS.REJECTED) {
+      setStep(current - 1)
     }
   }, [tx?.status])
 
   // Wait until rToken is selected and fetched to redirect the user to the management screen
   useEffect(() => {
-    if (rToken?.address === tx?.extra?.rTokenAddress) {
+    if (
+      tx?.extra?.rTokenAddress &&
+      rToken?.address === tx.extra.rTokenAddress
+    ) {
       // In case user role is still being fetched, set the current account as owner
       setOwner({
         owner: true,

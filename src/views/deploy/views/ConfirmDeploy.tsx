@@ -5,14 +5,15 @@ import Alert from 'components/alert'
 import { ethers } from 'ethers'
 import useTransactionCost from 'hooks/useTransactionCost'
 import { useAtom, useSetAtom } from 'jotai'
-import { useAtomValue } from 'jotai/utils'
-import { useMemo } from 'react'
+import { useAtomValue, useUpdateAtom } from 'jotai/utils'
+import { useEffect, useMemo } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { addTransactionAtom } from 'state/atoms'
 import { StringMap } from 'types'
 import { FACADE_WRITE_ADDRESS, ZERO_ADDRESS } from 'utils/addresses'
 import { CHAIN_ID } from 'utils/chains'
 import { TRANSACTION_STATUS } from 'utils/constants'
+import { v4 as uuid } from 'uuid'
 import {
   BackupBasket,
   backupCollateralAtom,
@@ -22,19 +23,15 @@ import {
 } from '../atoms'
 import DeployHeader, { deployStepAtom } from '../components/DeployHeader'
 import DeployPreview from '../components/DeployPreview'
+import { Steps } from '../components/DeployStep'
 
 interface RTokenConfiguration {
   name: string
   symbol: string
   mandate: string
   params: {
-    rTokenTradingRange: {
-      minAmt: BigNumber
-      maxAmt: BigNumber
-      // TODO:
-      minVal: BigNumber
-      maxVal: BigNumber
-    }
+    minTradeVolume: BigNumber
+    rTokenMaxTradeVolume: BigNumber
     dist: {
       rTokenDist: BigNumber
       rsrDist: BigNumber
@@ -49,8 +46,8 @@ interface RTokenConfiguration {
     shortFreeze: BigNumber
     longFreeze: BigNumber
     issuanceRate: BigNumber
-    maxRedemptionCharge: BigNumber
-    redemptionVirtualSupply: BigNumber
+    scalingRedemptionRate: BigNumber
+    redemptionRateFloor: BigNumber
   }
 }
 
@@ -79,13 +76,8 @@ export const getDeployParameters = (
       symbol: tokenConfig.ticker,
       mandate: tokenConfig.mandate,
       params: {
-        rTokenTradingRange: {
-          minAmt: parseEther(tokenConfig.minTrade.toString()),
-          maxAmt: parseEther(tokenConfig.maxTrade.toString()),
-          // TODO: Get this from target basket price
-          minVal: parseEther(tokenConfig.minTrade.toString()),
-          maxVal: parseEther(tokenConfig.maxTrade.toString()),
-        },
+        minTradeVolume: parseEther(tokenConfig.minTrade.toString()),
+        rTokenMaxTradeVolume: parseEther(tokenConfig.maxTrade.toString()),
         dist: {
           rTokenDist: BigNumber.from(tokenConfig.rTokenDist),
           rsrDist: BigNumber.from(tokenConfig.rsrDist),
@@ -106,12 +98,10 @@ export const getDeployParameters = (
         ),
         shortFreeze: BigNumber.from(tokenConfig.shortFreeze),
         longFreeze: BigNumber.from(tokenConfig.longFreeze),
-        maxRedemptionCharge: parseEther(
-          (Number(tokenConfig.maxRedemptionCharge) / 100).toString()
+        scalingRedemptionRate: parseEther(
+          (Number(tokenConfig.scalingRedemptionRate) / 100).toString()
         ),
-        redemptionVirtualSupply: parseEther(
-          tokenConfig.redemptionVirtualSupply
-        ),
+        redemptionRateFloor: parseEther(tokenConfig.redemptionRateFloor),
       },
     }
 
@@ -175,15 +165,19 @@ export const getDeployParameters = (
 const ConfirmDeploy = () => {
   const { getValues } = useFormContext()
   const addTransaction = useSetAtom(addTransactionAtom)
-  const deployId = useAtomValue(deployIdAtom)
+  const [deployId, setDeployId] = useAtom(deployIdAtom)
   const primaryBasket = useAtomValue(basketAtom)
   const backupBasket = useAtomValue(backupCollateralAtom)
-  const [current, setStep] = useAtom(deployStepAtom)
+  const setStep = useUpdateAtom(deployStepAtom)
+
+  useEffect(() => {
+    setDeployId(uuid())
+  }, [])
 
   const transaction = useMemo(() => {
     const params = getDeployParameters(getValues(), primaryBasket, backupBasket)
 
-    if (!params) {
+    if (!params || !deployId) {
       return null
     }
 
@@ -199,15 +193,20 @@ const ConfirmDeploy = () => {
         args: params,
       },
     }
-  }, [])
+  }, [deployId])
 
   const [fee, gasError] = useTransactionCost(transaction ? [transaction] : [])
 
   const handleDeploy = () => {
     if (transaction) {
       addTransaction([transaction])
-      setStep(current + 1)
+      setStep(Steps.DeployToken)
     }
+  }
+
+  const handleBack = () => {
+    setStep(Steps.Parameters)
+    setDeployId('')
   }
 
   return (
@@ -217,6 +216,7 @@ const ConfirmDeploy = () => {
         title={t`RToken Summary`}
         subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
         confirmText={fee ? t`Deploy RToken` : 'Validating...'}
+        onBack={handleBack}
         onConfirm={handleDeploy}
         gasCost={fee}
       />

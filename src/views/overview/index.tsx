@@ -2,6 +2,7 @@ import { formatEther } from '@ethersproject/units'
 import { t, Trans } from '@lingui/macro'
 import { Button, Container } from 'components'
 import CopyValue from 'components/button/CopyValue'
+import GoTo from 'components/button/GoTo'
 import { ContentHead } from 'components/info-box'
 import { gql } from 'graphql-request'
 import useQuery from 'hooks/useQuery'
@@ -15,6 +16,7 @@ import { Box, Divider, Grid, Text } from 'theme-ui'
 import { TokenStats } from 'types'
 import { formatCurrency, shortenAddress } from 'utils'
 import { TIME_RANGES } from 'utils/constants'
+import { ExplorerDataType, getExplorerLink } from 'utils/getExplorerLink'
 import About from './components/About'
 import AssetOverview from './components/AssetOverview'
 import HistoricalData from './components/HistoricalData'
@@ -105,15 +107,15 @@ const Overview = () => {
 
   return (
     <Container>
-      <Grid {...gridProps} ml={[0, 5]} gap={0}>
+      <Grid {...gridProps} ml={[0, 0, 0, 5]} gap={0}>
         <Box>
-          <TokenOverview ml={[5, 0]} metrics={rTokenMetrics} />
-          <TokenUsage ml={[5, 0]} mt={7} metrics={rTokenMetrics} />
+          <TokenOverview ml={[5, 5, 5, 0]} metrics={rTokenMetrics} />
+          <TokenUsage ml={[5, 5, 5, 0]} mt={7} metrics={rTokenMetrics} />
         </Box>
         {rToken?.isRSV ? (
-          <RecentRSVTransactions />
+          <RecentRSVTransactions mt={[5, 5, 5, 0]} />
         ) : (
-          <RecentTokenTransactions mt={[7, 7, 7, 0]} />
+          <RecentTokenTransactions mt={[5, 5, 5, 0]} />
         )}
       </Grid>
       <Divider {...dividerProps} />
@@ -139,7 +141,13 @@ const Overview = () => {
         {!!rToken?.address && (
           <>
             <Text ml="auto">{shortenAddress(rToken.address)}</Text>
-            <CopyValue ml={3} value={rToken.address} />
+            <CopyValue ml={3} mr={2} value={rToken.address} />
+            <GoTo
+              href={getExplorerLink(
+                rToken?.address ?? '',
+                ExplorerDataType.TOKEN
+              )}
+            />
           </>
         )}
       </Box>
