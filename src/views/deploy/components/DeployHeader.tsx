@@ -51,7 +51,7 @@ const DeployHeader = ({
   const showBack = (current !== 0 && current !== 6) || onBack
 
   return (
-    <Flex variant="layout.verticalAlign" my={5} {...props} pr={5}>
+    <Flex variant="layout.verticalAlign" my={7} {...props} pr={5}>
       {showBack && (
         <IconButton
           mr={3}

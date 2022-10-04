@@ -34,12 +34,12 @@ const Home = () => {
       {!account && !visited && <Greet onDismiss={handleDismiss} />}
       {!!account && <Portfolio />}
       <Grid columns={[1, 1, 1, 2]}>
-        <TokenStats mb={6} />
-        <TransactionsOverview mb={6} />
+        <TokenStats mb={0} />
+        <TransactionsOverview mb={0} />
       </Grid>
-      <Divider mb={8} mt={6} mx={[-4, -7]} sx={{ borderColor: 'darkBorder' }} />
+      <Divider mb={2} mt={6} mx={[-5, -5]} sx={{ borderColor: 'darkBorder' }} />
       <TokenList mt={6} />
-      <Divider my={8} mx={[-4, -7]} sx={{ borderColor: 'darkBorder' }} />
+      <Divider my={5} mx={[-5, -5]} sx={{ borderColor: 'darkBorder' }} />
       <About />
     </Container>
   )
