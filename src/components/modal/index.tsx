@@ -19,6 +19,11 @@ const StyledDialog = styled((props: any) => <Dialog {...props} />)`
     padding: ${({ theme }) => theme.space[4]}px;
     position: relative;
     border-radius: 12px;
+    position: 'absolute';
+    left: '50%';
+    top: '50%';
+    transform: 'translate(-50%, -50%)';
+    margin: 0;
   }
 `
 

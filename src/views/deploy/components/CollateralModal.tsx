@@ -94,7 +94,13 @@ const CollateralModal = ({
   return (
     <Modal
       title={t`Collateral Plugins`}
-      style={{ width: 480 }}
+      style={{
+        position: 'absolute',
+        left: '50%',
+        top: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 480,
+      }}
       onClose={onClose}
       {...props}
     >

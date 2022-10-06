@@ -9,19 +9,15 @@ const About = (props: BoxProps) => {
 
   return (
     <Box>
-      <Grid columns={2} mt={6} pl={3} gap={8}>
+      <Grid columns={2} my={7} pl={3} gap={6}>
         <Box>
           <Text mb={2} sx={{ fontSize: 3, display: 'block', fontWeight: 500 }}>
             <Trans>This app</Trans>
           </Text>
           <Text variant="legend">
-            Register is developed and maintained by LC Labs as the first interface to interact with RTokens on the Reserve protocol.
+            Register is developed and maintained by LC Labs as the first dApp to interact with the Reserve Protocol and various RTokens deployed with the platform.            <br />
             <br />
-            <br />
-            **[Say something about how it's hosted and how one might go about creating their UI]**
-            <br />
-            <br />
-            Register listed RTokens doesn't mean Reserve or LC Labs endorses the token. LC Labs requires Github requests with additional info beyond what is on the blockchain to list tokens and for them to not be apparent scams. Please evaluate unproven RTokens carefully before holding or staking your RSR on them.
+            If an RToken is listed on Register, it doesn't mean that Reserve or LC Labs endorses the safety or risk levels of the RToken. LC Labs requires Github requests with additional information beyond what is available on the blockchain to give users relevant data to make informed decisions. As a user, please evaluate any new RToken carefully before holding or staking your RSR on them.
           </Text>
           <br />
           <br />
@@ -29,10 +25,10 @@ const About = (props: BoxProps) => {
             <Trans>Storage of usage data</Trans>
           </Text>
           <Text variant="legend">
-            LC Labs do not currently track any usage of Register but keep in mind that interactions on the blockchain are public.
+            LC Labs uses industry standard anonymized analytics tools to understand usage and improve the user experience. LC labs does not collect any information about users or their financial activity.
             <br />
             <br />
-            As we don't track usage, please let us know if you're experiencing problems or if anything is hard to understand. Unfortunately, we won't be able to correct things based on analyzing where many people drop off/get stuck.
+            Please keep in mind that interactions with the Ethereum blockchain are pseudonymous and publicly available.
           </Text>
           <br />
           <br />
@@ -40,31 +36,22 @@ const About = (props: BoxProps) => {
             <Trans>Reserve Protocol</Trans>
           </Text>
           <Text variant="legend">
-            This interface lets you interact with the Reserve Protocol RTokens or to create your own. Doing so is permissionless and can be done without this or other interfaces if you're a technical person. Reserve is a project trying to solve the problem of inflation by letting anyone create asset-backed currencies with tokenized assets on the Ethereum blockchain in customizable and novel ways. 
+          Reserve aims to help people around the world maintain their spending power by allowing anyone to create asset-backed currencies with tokenized assets on the Ethereum blockchain in customizable and novel ways. Read more here in Reserve's documentation. (link https://reserve.org/protocol/)
           </Text>
-        </Box>
-        <Box
-         sx={{ borderRight: '1px solid', borderColor: 'darkBorder' }}
-        >
-          <Text mb={2} sx={{ fontSize: 3, display: 'block', fontWeight: 500 }}>
-            <Trans>RTokens</Trans>
+          <br />
+          <br />
+        <Text mb={2} sx={{ fontSize: 3, display: 'block', fontWeight: 500 }}>
+            <Trans>RTokens & Deploying your own </Trans>
           </Text>
           <Text variant="legend">
-            Anyone can create an RToken with the basket, revenue model, and governance that they think is best and that the protocol supports technically. The original writers of the factory Ethereum contracts have never themselves launched an RToken and never intend to. The best RTokens will not only be diversified in assets and jurisdictions but also earn revenue and have competent governance.
+          The creation of new RToken designs is permissionless. If you are the inventive type and have ideas for what assets should be in the basket, what good governance looks like, or anything novel that could work within the realms of the protocol, please consider putting those ideas into practice or sharing them with the community.  
           </Text>
           <br />
-          <br />
-          <Text mb={2} sx={{ fontSize: 3, display: 'block', fontWeight: 500 }}>
-            <Trans>Deploy your own RToken</Trans>
-          </Text>
-          <Text variant="legend">
-            Do you think you might have a superior RToken design, basket, or governance and want to put it to practice? 
-          </Text>
-          <br />
-          <SmallButton py={2} mt={6} onClick={() => navigate(ROUTES.DEPLOY)}>
+          <SmallButton py={2} mt={4} onClick={() => navigate(ROUTES.DEPLOY)}>
             <Trans>Deploy RToken</Trans>
           </SmallButton>
-          
+        </Box>
+        <Box>
         </Box>
       </Grid>
     </Box>

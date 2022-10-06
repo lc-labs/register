@@ -1,5 +1,5 @@
 import { ReactNode, Suspense } from 'react'
-import { Box, Flex } from 'theme-ui'
+import { Box, Flex, ThemeProvider } from 'theme-ui'
 import Header from './header'
 import MobileNav from './MobileNav'
 import Sidebar from './sidebar'
@@ -18,6 +18,9 @@ const Layout = ({ children }: { children: ReactNode }) => {
         height: '100%',
         maxWidth: '108em',
         margin: 'auto',
+        borderStyle: 'solid',
+        borderWidth: '0px 1px 0px 1px',
+        borderColor: 'border'
       }}
     >
       <Sidebar />

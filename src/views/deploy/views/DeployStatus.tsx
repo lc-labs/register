@@ -32,14 +32,16 @@ const Pending = () => (
 
 const Mining = ({ hash }: { hash: string }) => (
   <Box sx={{ textAlign: 'center', width: 400 }}>
-    <Spinner size={24} />
-    <Text sx={{ fontWeight: 500, display: 'block' }}>
+    <Spinner size={24} mb={2}/>
+    <Text sx={{ fontWeight: 500, fontSize: 3, display: 'block' }} mb={2}>
       <Trans>Deploy transaction submitted</Trans>
     </Text>
     <Text as="p" variant="legend">
       <Trans>
-        Stay patient while the RToken is deploying & don’t close this window to
-        avoid issues finding your way back here.
+        Meditate peacefully on the stability of a future asset backed reserve currency while your RToken deploys 🧘‍♂️
+        <br />
+        <br />
+        Please don't close this window to avoid issues finding your way back here.
       </Trans>
     </Text>
     <Box
