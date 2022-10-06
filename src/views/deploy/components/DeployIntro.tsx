@@ -27,8 +27,8 @@ const StepItem = ({ title, subtitle, ...props }: InfoBoxProps) => (
       <Circle size={7} fill="#000" stroke="#999999" />
     </Box>
     <Box ml={3}>
-      <Text sx={{ display: 'block', fontWeight: 500 }}>{title}</Text>
-      <Text variant="legend" sx={{ fontSize: 2 }}>
+      <Text variant="strong">{title}</Text>
+      <Text variant="legend" sx={{ fontSize: 1 }}>
         {subtitle}
       </Text>
     </Box>
@@ -49,13 +49,11 @@ const DeployIntro = () => {
       columns={2}
       sx={{ backgroundColor: 'contentBackground', borderRadius: 10 }}
     >
-      
       <Box
         px={5}
         py={4}
         sx={{ borderRight: '1px solid', borderColor: 'border' }}
       >
-        
         <Title prefix="Tx 1." text={t`RToken Deployment`} />
         <StepItem
           title={t`Set Primary & Emergency collaterals`}
@@ -92,7 +90,7 @@ const DeployIntro = () => {
       </Box>
       <Box px={5} py={4}>
         <Box>
-        <Text
+          <Text
             mt={2}
             mb={2}
             sx={{
@@ -102,7 +100,7 @@ const DeployIntro = () => {
           >
             👋
           </Text>
-        <Text variant="sectionTitle" sx={{ fontWeight: 500 }} mb={2}>
+          <Text variant="sectionTitle" sx={{ fontWeight: 500 }} mb={2}>
             <Trans>First, Who is this for?</Trans>
           </Text>
           <Text as="p" variant="legend" sx={{ fontSize: 2 }}>
@@ -113,19 +111,27 @@ const DeployIntro = () => {
               confirming any transactions.
             </Trans>
           </Text>
-          <Flex mt={3} mb={5}>
-            <SmallButton variant="muted" mr={3}>
+          <Flex mt={3}>
+            <SmallButton
+              variant="muted"
+              onClick={() =>
+                window.open('https://discord.gg/Ryk6P67c', '_blank')
+              }
+              mr={3}
+            >
               <Trans>Community Discord</Trans>
             </SmallButton>
-            <SmallButton variant="muted">
+            <SmallButton
+              variant="muted"
+              onClick={() =>
+                window.open('https://reserve.org/protocol/', '_blank')
+              }
+            >
               <Trans>Protocol docs</Trans>
             </SmallButton>
           </Flex>
-          
         </Box>
-        <Box mt={6}>
-          
-        </Box>
+        <Box mt={6}></Box>
       </Box>
     </Grid>
   )

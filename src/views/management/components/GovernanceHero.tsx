@@ -11,12 +11,15 @@ const GovernanceHero = (props: BoxProps) => {
     <Box {...props}>
       <AlertCircle size={28} />
       <Text variant="title" sx={{ fontSize: 4 }} mt={2} mb={2}>
-        <Trans>RToken Deployed!<br />Next: Configure Governance</Trans>
+        <Trans>RToken Deployed! Next: Configure Governance</Trans>
       </Text>
-      <Text as="p" variant="legend" sx={{ maxWidth: 600 }}>
-        Your Rtoken has been deployed and the "owner" role is set to your wallet. 
-        Next, let's configure a robust governance module for your currency. 
-        We recommend the default Reserve Governor Alexios but it is a flexible platform.
+      <Text as="p" variant="legend" sx={{ maxWidth: 500 }}>
+        <Trans>
+          Your Rtoken has been deployed and the "owner" role is set to your
+          wallet. Next, let's configure a robust governance module for your
+          currency. We recommend the default Reserve Governor Alexios but it is
+          a flexible platform.
+        </Trans>
       </Text>
       <Flex mt={4}>
         <Button px={4} variant="muted" mr={3}>
