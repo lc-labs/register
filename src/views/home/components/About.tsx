@@ -12,9 +12,17 @@ const About = (props: BoxProps) => {
 
   return (
     <Box {...props}>
-      <Grid columns={2} mt={6} pl={3} gap={8}>
+      <Grid columns={2} my={6} pl={3} gap={8}>
         <Box>
-          <Text mb={2} variant="strong">
+          <Text
+            mb={2}
+            sx={{
+              display: 'block',
+              marginBottom: 1,
+              fontWeight: 500,
+              fontSize: 4,
+            }}
+          >
             <Trans>RTokens & Deploying your own</Trans>
           </Text>
           <Text variant="legend" as="p">
@@ -29,16 +37,25 @@ const About = (props: BoxProps) => {
           </Text>
           <SmallButton
             py={2}
-            mt={3}
-            mb={4}
+            mt={4}
+            mb={5}
             onClick={() => navigate(ROUTES.DEPLOY)}
           >
             <Trans>Deploy RToken</Trans>
           </SmallButton>
-          <Text mb={2} variant="strong">
+          <Text
+            mb={2}
+            variant="strong"
+            sx={{
+              display: 'block',
+              marginBottom: 1,
+              fontWeight: 500,
+              fontSize: 4,
+            }}
+          >
             <Trans>This app</Trans>
           </Text>
-          <Text variant="legend" as="p" mb={4}>
+          <Text variant="legend" as="p" mb={5}>
             <Trans>
               Register is developed and maintained by LC Labs as the first dApp
               to interact with the Reserve Protocol and various RTokens deployed
@@ -54,10 +71,19 @@ const About = (props: BoxProps) => {
               carefully before holding or staking your RSR on them.
             </Trans>
           </Text>
-          <Text mb={2} variant="strong">
+          <Text
+            mb={2}
+            variant="strong"
+            sx={{
+              display: 'block',
+              marginBottom: 1,
+              fontWeight: 500,
+              fontSize: 4,
+            }}
+          >
             <Trans>User tracking</Trans>
           </Text>
-          <Text variant="legend" as="p" mb={4}>
+          <Text variant="legend" as="p" mb={5}>
             <Trans>
               LC Labs uses industry standard anonymized analytics tools to
               understand usage and improve the user experience. LC labs does not
@@ -69,7 +95,16 @@ const About = (props: BoxProps) => {
               are pseudonymous and publicly available.
             </Trans>
           </Text>
-          <Text mb={2} variant="strong">
+          <Text
+            mb={2}
+            variant="strong"
+            sx={{
+              display: 'block',
+              marginBottom: 1,
+              fontWeight: 500,
+              fontSize: 4,
+            }}
+          >
             <Trans>The Reserve Project</Trans>
           </Text>
           <Text variant="legend" as="p">
