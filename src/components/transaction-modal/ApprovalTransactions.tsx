@@ -53,7 +53,7 @@ const ApprovalTransactions = ({
   if (signed) {
     return (
       <TextPlaceholder
-        mt={3}
+        mt={4}
         text="Transactions signed! Waiting for allowance..."
       />
     )
@@ -75,7 +75,7 @@ const ApprovalTransactions = ({
           onClick={handleApprove}
           sx={{ width: '100%' }}
         />
-        <Box mt={2} sx={{ fontSize: 1, textAlign: 'center' }}>
+        <Box mt={3} sx={{ fontSize: 1, textAlign: 'center' }}>
           <Text mr={1}>Estimated gas cost:</Text>
           {fee ? (
             <Text sx={{ fontWeight: 500 }}>${formatCurrency(fee)}</Text>

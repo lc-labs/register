@@ -36,9 +36,9 @@ const TransactionInput = ({
 
   return (
     <Box {...props}>
-      <Flex sx={{ alignItems: 'center' }} mb={2}>
-        <Text as="label" variant="legend" ml={2}>
-          {title}
+      <Flex sx={{ alignItems: 'center' }} mb={2} px={2}>
+        <Text as="label" variant="legend">
+          Amount
         </Text>
         {compact && maxLabel}
       </Flex>
