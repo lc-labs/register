@@ -166,13 +166,12 @@ const Footer = () => (
   <Box m={4}>
     <Box sx={{ fontSize: 1 }} mb={3}>
       <Text sx={{ fontWeight: 500 }}>
-        <Trans>Heads up!</Trans>
+        <Trans>Proceed with caution</Trans>
       </Text>
       <Text as="p" variant="legend" mt={1}>
         <Trans>
-          Register & the Reserve Protocol is brand new software that has not yet
-          been given the green light and should not be used without
-          understanding the risks.
+          Both Register & the Reserve Protocol are brand new. There are risks
+          with using any new smart contract technology.
         </Trans>
       </Text>
     </Box>
