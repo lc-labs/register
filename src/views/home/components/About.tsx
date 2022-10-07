@@ -1,7 +1,7 @@
 import { Trans } from '@lingui/macro'
 import { SmallButton } from 'components/button'
 import { useNavigate } from 'react-router-dom'
-import { Box, BoxProps, Text, Grid, Link } from 'theme-ui'
+import { Box, BoxProps, Grid, Link, Text } from 'theme-ui'
 import { ROUTES } from 'utils/constants'
 
 /**
